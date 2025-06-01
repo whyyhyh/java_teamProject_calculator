@@ -1,4 +1,3 @@
-package pck01;
 
 public class CentralProcessingUnit {
 
@@ -11,7 +10,6 @@ public class CentralProcessingUnit {
     private ArithmeticLogicUnit alu;             // 산술/논리 연산 담당
     private ControlUnit cu;                      // 명령어 해석 및 실행 흐름 제어
     private Register[] memory;                   // 메모리(명령어/데이터 저장)
-    private Bus bus;
    
     /**
      * 생성자
@@ -35,7 +33,6 @@ public class CentralProcessingUnit {
     }
 
      public void setBus(Bus bus) {
-       this.bus = bus;
        cu.setBus(bus);
      }
     
@@ -49,10 +46,12 @@ public class CentralProcessingUnit {
 
     /**
      * CPU 실행 루프
+     * - PC의 값 0으로 초기화.
      * - CU의 executeNextInstruction()을 반복 호출
      * - CU가 false 반환 시(종료 조건 충족), 실행 종료
      */
     public void run() {
+    	pc.set(0);
         while (true) {
             boolean continueExecution = cu.executeNextInstruction();
             if (!continueExecution) break;
