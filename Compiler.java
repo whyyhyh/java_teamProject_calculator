@@ -6,7 +6,7 @@ public class Compiler {
 	private String operationData;
 	private int operand_1, operand_2;
 	
-	public Compiler() {
+	public Compiler() {//컴파일러 생성할 때 문자열 생성(반복관리 때문에 메소드로)
 //		//this.operrationExpression = operationExpression;
 //		//char letter;
 //		
@@ -46,7 +46,7 @@ public class Compiler {
 	public int getOperand_2() {
 		return operand_2;
 	}
-	void change(String operationExpression) {
+	void compile(String operationExpression) {//메소드로 문자열 분리
 		String[] splited = operationExpression.split("[+\\-*/ ]+");		
 		operand_1 = Integer.parseInt(splited[0]);		
 		operand_2 = Integer.parseInt(splited[1]);		
