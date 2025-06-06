@@ -2,6 +2,7 @@ import java.util.Scanner;
 
 public class Main {
 	public static void main(String[] args) {
+		int storeIndex;
 		
 		// 1. 시스템 초기화
 		Scanner sc = new Scanner(System.in); // 사용자 입력용 스캐너
@@ -24,20 +25,21 @@ public class Main {
 				break;
 			}
 
-			// 4. 입력 형식 검사 (정규표현식 기반 유효성 검증)
-			if (!InputValidator.isValid(input)) {
-				System.out.println("잘못된 입력입니다. 다시 입력하세요."); // 추후 UI 출력으로 대체 예정
+			// 4. 입력 형식 검사 및 표준화 (정규표현식 기반 유효성 검증)
+			input = InputValidator.validateAndNormalize(input);
+			if(input == null) {
+				System.out.println("다시 입력하세요"); // UI로 대체
 				continue;
 			}
 			
-			// 5. 입력 문자열 표준화 (공백 제거 및 정형화)
-			input = InputValidator.normalizeString(input);
+			// 5. 컴파일 단계: 수식을 명령어/데이터로 해석하여 메모리에 저장
+			storeIndex = compiler.compile(input);
 
-			// 6. 컴파일 단계: 수식을 명령어/데이터로 해석하여 메모리에 저장
-			compiler.compile(input);
-
-			// 7. 실행 단계: CPU가 메모리의 명령어를 순차적으로 실행
+			// 6. 실행 단계: CPU가 메모리의 명령어를 순차적으로 실행
 			cpu.run(); 
+			
+			// 7. 계산 결과 출력
+			System.out.println(input + " = " + cpu.getMemory()[storeIndex].getValue());
 		} // end while
 		
 		sc.close(); // 스캐너 자원 해제
